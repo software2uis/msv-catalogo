@@ -1,0 +1,16 @@
+name: Auto Author Assign
+
+# Trigger the workflow on pull request events when opened or reopened
+on:
+  pull_request_target:
+    types: [ opened, reopened ]
+
+# Grant the necessary permissions to modify pull requests
+permissions:
+  pull-requests: write
+
+jobs:
+  assign-author:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: toshimaru/auto-author-assign@v2.1.1
