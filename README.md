@@ -14,7 +14,7 @@ Find the full documentation for the project below:
 ### Prerequisites
 - Java 17
 - SpringBoot 3.3.4
-- Install [Maven]([https://nodejs.org](https://maven.apache.org/) which includes [mvn]([https://www.npmjs.com/get-npm](https://maven.apache.org/download.cgi)).
+- Install [Maven] ([https://nodejs.org](https://maven.apache.org] which includes [mvn]([https://www.npmjs.com/get-npm](https://maven.apache.org/download.cgi)).
 
 ### Setting Up a Project
 
