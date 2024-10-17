@@ -9,10 +9,7 @@ pipeline {
     environment {
         FINAL_NAME = "${CONTAINER_NAME}${IMAGE_TAG}${IMAGE_PORT}"
         DOCKERHUB_CREDENTIALS = 'docker'
-        w="majority"
-        appName="Software2"
-        imageName="${USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
-        MONGODBURI = "mongodb+srv://${appName}:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}&appName=${appName}"
+        MONGODBURI = '"mongodb+srv://${appName}:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}&appName=${appName}"'
         USERNAME = 'sebstiian'
     }
     stages {
@@ -60,10 +57,18 @@ passwordVariable: 'DOCKERHUB_PASSWORD')]) {
         stage('run') {
             steps {
                 script{
-                    sh "docker images"
-                    sh "docker run -dp ${IMAGE_PORT}:8081 \
-                     -e MONGODBURI=${MONGODBURI} \
-                        ${imageName} "
+                    // Define the variables for the Docker run command
+                    def appName = "Software2"
+                    def imageName = "${USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    def w = "majority"
+
+                    // Run the Docker container using the defined variables
+                    sh """
+                    docker run -dp ${IMAGE_PORT}:8081 \\
+                        --name msv-catalogo \\
+                        -e MONGODBURI="mongodb+srv://${appName}:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}" \\
+                        ${imageName}
+                    """
 
                     }
                     
