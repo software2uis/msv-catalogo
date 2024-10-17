@@ -9,7 +9,10 @@ pipeline {
     environment {
         FINAL_NAME = "${CONTAINER_NAME}${IMAGE_TAG}${IMAGE_PORT}"
         DOCKERHUB_CREDENTIALS = 'docker'
-        MONGODBURI = 'mongodb+srv://Software2:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=majority&appName=Software2'
+        w="majority"
+        appName="Software2"
+        imageName="${USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
+        MONGODBURI = "mongodb+srv://${appName}:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}&appName=${appName}"
         USERNAME = 'sebstiian'
     }
     stages {
@@ -58,8 +61,9 @@ passwordVariable: 'DOCKERHUB_PASSWORD')]) {
             steps {
                 script{
                     sh "docker images"
-                    sh "docker run -dp ${IMAGE_PORT}:8081 -e MONGODBURI=${MONGODBURI}\
-                         ${USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker run -dp ${IMAGE_PORT}:8081 \
+                     -e MONGODBURI=${MONGODBURI} \
+                        ${imageName} "
 
                     }
                     
