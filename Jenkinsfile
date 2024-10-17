@@ -58,7 +58,8 @@ passwordVariable: 'DOCKERHUB_PASSWORD')]) {
             steps {
                 script{
                     sh "docker images"
-                    sh "docker run -dp ${IMAGE_PORT}:8081 -e MONGODBURI=${MONGODBURI} ${USERNAME}/${IMAGE_NAME}"
+                    sh "docker run -dp ${IMAGE_PORT}:8081 -e MONGODBURI=${MONGODBURI}\
+                         ${USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
 
                     }
                     
