@@ -12,8 +12,9 @@ Find the full documentation for the project below:
 ## Development Setup
 
 ### Prerequisites
-
-- Install [Node.js](https://nodejs.org) which includes [npm](https://www.npmjs.com/get-npm).
+- Java 17.
+- SpringBoot 3.3.4.
+- Install [Maven](https://maven.apache.org/download.cgi).
 
 ### Setting Up a Project
 
@@ -23,12 +24,12 @@ Find the full documentation for the project below:
    ```
 2. Install dependencies:
    ```bash
-   npm install
+   mvn install
    ```
 
 3. Run the application:
    ```bash
-   npm start
+   mvn spring-boot:run
    ```
 
 ### Contributing
