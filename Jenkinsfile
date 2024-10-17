@@ -65,7 +65,7 @@ passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                     // Run the Docker container using the defined variables
                     sh """
                     docker run -dp ${IMAGE_PORT}:8081 \\
-                        --name msv-catalogo \\
+                        --name ${FINAL_NAME} \\
                         -e MONGODBURI="mongodb+srv://${appName}:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}" \\
                         ${imageName}
                     """
