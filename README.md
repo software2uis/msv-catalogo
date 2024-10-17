@@ -22,12 +22,13 @@ Find the full documentation for the project below:
    ```bash
    git clone https://github.com/software2uis/msv-catalogo.git
    ```
-2. Install dependencies:
+2. Set the environment variable ${MONGODBURI}.
+3. Install dependencies:
    ```bash
    mvn install
    ```
 
-3. Run the application:
+4. Run the application:
    ```bash
    mvn spring-boot:run
    ```
