@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script{
                     sh ''' 
-                         docker stop ${FINAL_NAME}
+                         docker rm -f ${FINAL_NAME}
                     '''
                     }
                     
