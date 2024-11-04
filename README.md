@@ -32,6 +32,10 @@ Find the full documentation for the project below:
    ```bash
    mvn spring-boot:run
    ```
+5. If you want to view the API documentation, you can navigate to 
+```bash
+   {{base_url}}/swagger-ui/index.html
+   ```
 
 ### Contributing
 
