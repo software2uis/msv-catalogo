@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -15,7 +16,7 @@ public class ProductDTO {
 
     private String id;  // El ID puede ser opcional si lo generas en el backend
 
-    private String catgory;
+    private CategoryDTO category;
 
     private String name;
 
@@ -23,7 +24,35 @@ public class ProductDTO {
 
     private Double price;
 
-    private String image;
+    private List<ImageDTO> images;
+    private List<SpecificationDTO> specifications;
 
-    private Map<String, Object> specifications;  // Mantiene el mismo tipo para especificaciones
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CategoryDTO {
+        private String id;
+        private String name;
+    }
+
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ImageDTO {
+        private String color;
+        private String url;
+        private boolean isMain;
+    }
+
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SpecificationDTO {
+        private String name;
+        private List<String> values;
+    }
 }
+
