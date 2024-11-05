@@ -43,7 +43,7 @@ public class ProductDTO {
     public static class ImageDTO {
         private String color;
         private String url;
-        private boolean isMain;
+        private Boolean isMain;
     }
 
     @Setter
