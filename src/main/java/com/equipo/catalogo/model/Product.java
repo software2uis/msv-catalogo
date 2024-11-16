@@ -29,6 +29,8 @@ public class Product {
 
     private List<Specification> specifications;
 
+    private Integer quantity;
+
 
     @Setter
     @Getter
@@ -37,6 +39,7 @@ public class Product {
     public static class Category {
         private String id;
         private String name;
+        private Integer quantity;
     }
 
     @Setter
