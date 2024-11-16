@@ -24,6 +24,8 @@ public class ProductDTO {
 
     private Double price;
 
+    private Integer quantity;
+
     private List<ImageDTO> images;
     private List<SpecificationDTO> specifications;
 
