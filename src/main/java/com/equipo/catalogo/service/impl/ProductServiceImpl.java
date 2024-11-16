@@ -3,6 +3,7 @@ package com.equipo.catalogo.service.impl;
 import com.equipo.catalogo.dto.ProductDTO;
 import com.equipo.catalogo.mapper.ProductMapper;
 import com.equipo.catalogo.model.Product;
+import com.equipo.catalogo.repository.impl.ProductCustomRepositoryImpl;
 import com.equipo.catalogo.repository.interfaces.IProductCustomRepository;
 import com.equipo.catalogo.repository.interfaces.IProductRepository;
 import com.equipo.catalogo.service.interfaces.IProductService;
@@ -46,5 +47,13 @@ public class ProductServiceImpl implements IProductService {
     @Autowired
     public void setiProductCustomRepository(IProductCustomRepository iProductCustomRepository) {
         this.iProductCustomRepository = iProductCustomRepository;
+    }
+
+    public List<String> getSuggestions(String query) {
+        return this.iProductRepository.findByNameContainingIgnoreCase(query)
+                .stream()
+                .map(Product::getName)
+                .limit(5)
+                .collect(Collectors.toList());
     }
 }

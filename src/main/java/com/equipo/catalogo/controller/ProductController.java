@@ -1,6 +1,8 @@
 package com.equipo.catalogo.controller;
 
 import com.equipo.catalogo.dto.ProductDTO;
+import com.equipo.catalogo.model.Product;
+import com.equipo.catalogo.service.impl.ProductServiceImpl;
 import com.equipo.catalogo.service.interfaces.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("public/api/products")
@@ -16,6 +20,9 @@ import java.util.Optional;
 public class ProductController {
 
     private IProductService iProductService;
+
+    @Autowired
+    private ProductServiceImpl productService;
 
     // Obtener todos los productos
     @GetMapping
@@ -32,5 +39,10 @@ public class ProductController {
     @Autowired
     public void setiProductService(@Qualifier("productServiceImpl") IProductService iProductService) {
         this.iProductService = iProductService;
+    }
+
+    @GetMapping("/suggestions")
+    public List<String> getSuggestions(@RequestParam String query) {
+        return productService.getSuggestions(query);
     }
 }
