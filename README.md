@@ -34,7 +34,7 @@ Find the full documentation for the project below:
    ```
 5. If you want to view the API documentation, you can navigate to 
 ```bash
-   {{base_url}}/swagger-ui/index.html
+   {{base_url}}/docs
    ```
 
 ### Contributing
