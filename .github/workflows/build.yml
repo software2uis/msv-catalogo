@@ -37,5 +37,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          MONGODBURI: ${{ secrets.MONGODBURI }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=software2uis_msv-catalogo_ce70f7d9-dff4-4cd7-b766-46698d6ef9b4 -Dsonar.projectName='msv-catalogo'
         
