@@ -12,44 +12,14 @@ import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
-@Document(collection = "products_v2")
-public class Product {
+@Document(collection = "categories")
+public class Category {
     @Id
     private String id;
 
-    private Category category;
-
     private String name;
 
-    private String description;
-
-    private Double price;
-
-    private List<Image> images;
-
     private List<Specification> specifications;
-
-    private Integer quantity;
-
-
-    @Setter
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Category {
-        private String id;
-        private String name;
-    }
-
-    @Setter
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Image {
-        private String color;
-        private String url;
-        private Boolean isMain;
-    }
 
     @Setter
     @Getter

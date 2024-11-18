@@ -1,12 +1,14 @@
 package com.equipo.catalogo.controller;
 
 import com.equipo.catalogo.dto.ProductDTO;
+import com.equipo.catalogo.dto.ProductFilterDTO;
 import com.equipo.catalogo.service.interfaces.IProductService;
 import com.equipo.catalogo.dto.UpdateQuantityRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +26,15 @@ public class ProductController {
 
     // Obtener todos los productos
     @GetMapping
-    public Page<ProductDTO> getAllProducts(@RequestParam(value = "query", required = false) String query,
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestBody(required = false) ProductFilterDTO productFilterDTO,
                                            Pageable pageable) {
-        return this.iProductService.getAllProducts(query, pageable);
+        return new ResponseEntity<>(this.iProductService.getProductsFiltered(productFilterDTO, pageable), HttpStatus.OK);
     }
 
     // Obtener un producto por ID
     @GetMapping("/{id}")
-    public Optional<ProductDTO> getProductById(@PathVariable String id) {
-        return this.iProductService.getProductById(id);
-    }
-    @Autowired
-    public void setiProductService(@Qualifier("productServiceImpl") IProductService iProductService) {
-        this.iProductService = iProductService;
+    public ResponseEntity<Optional<ProductDTO>> getProductById(@PathVariable String id) {
+        return new ResponseEntity<>(this.iProductService.getProductById(id), HttpStatus.OK);
     }
 
     @GetMapping("/suggestions")
@@ -57,5 +55,10 @@ public class ProductController {
     @PutMapping("/addQuantity")
     public ResponseEntity<String> addQuantity(@RequestBody UpdateQuantityRequest updateRequest) {
         return this.iProductService.addQuantity(updateRequest.getId(), updateRequest.getQuantity());
+    }
+
+    @Autowired
+    public void setiProductService(@Qualifier("productServiceImpl") IProductService iProductService) {
+        this.iProductService = iProductService;
     }
 }

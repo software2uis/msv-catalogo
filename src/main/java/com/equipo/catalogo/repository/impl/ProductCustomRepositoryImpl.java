@@ -1,6 +1,8 @@
 package com.equipo.catalogo.repository.impl;
 
+import com.equipo.catalogo.dto.ProductFilterDTO;
 import com.equipo.catalogo.model.Product;
+import com.equipo.catalogo.service.impl.ProductFilterContext;
 import com.equipo.catalogo.repository.interfaces.IProductCustomRepository;
 import com.equipo.catalogo.utils.IProductConstants;
 import com.equipo.catalogo.utils.ProductUtils;
@@ -20,45 +22,43 @@ import java.util.List;
 @Repository
 public class ProductCustomRepositoryImpl implements IProductCustomRepository {
 
+    private ProductFilterContext productFilterContext;
     private MongoTemplate mongoTemplate;
+
     @Override
-    public Page<Product> productsCustomSearch(String query, Pageable pageable) {
-        Query mongoQuery = new Query();
+    public Page<Product> getFilteredProducts(ProductFilterDTO filter, Pageable pageable) {
 
-        if (pageable == null) {
-            pageable = PageRequest.of(0, 10);  // Página 0, 10 elementos por página por defecto
+        pageable = (pageable == null) ? PageRequest.of(0, 10) : pageable;
+
+        Query query = this.productFilterContext.buildQuery(filter);
+        if(filter.getQuery() != null){
+            String normalizedQuery = ProductUtils.removeAccents(filter.getQuery());
+            Criteria nameCriteria = Criteria.where(IProductConstants.NAME)
+                    .regex(".*" + normalizedQuery + ".*", "i");
+            Criteria descriptionCriteria = Criteria.where(IProductConstants.DESCRIPTION)
+                    .regex(".*" + normalizedQuery + ".*", "i");
+            query.addCriteria(new Criteria().orOperator(nameCriteria, descriptionCriteria));
         }
 
-        // Si la query es nula o vacía, devolver todos los productos
-        if (query == null || query.isEmpty()) {
-            mongoQuery.with(pageable);
-            long total = mongoTemplate.count(new Query(), Product.class);
-            List<Product> products = mongoTemplate.find(mongoQuery, Product.class);
-            return new PageImpl<>(products, pageable, total);
+        if(filter.getMinPrice() != null){
+            query.addCriteria(Criteria.where(IProductConstants.PRICE).gte(filter.getMinPrice()));
         }
 
-        // Construir los criterios de búsqueda
-        Criteria criteria = new Criteria();
+        if(filter.getMaxPrice() != null){
+            query.addCriteria(Criteria.where(IProductConstants.PRICE).lte(filter.getMaxPrice()));
+        }
 
-        // Normalizar la query
-        String normalizedQuery = ProductUtils.removeAccents(query);
+        query.with(pageable);
 
-        // Búsqueda en los campos del producto
-        criteria.orOperator(
-                Criteria.where(IProductConstants.NAME).regex(".*" + normalizedQuery + ".*", "i"),  // Búsqueda insensible a mayúsculas en nombre
-                Criteria.where(IProductConstants.DESCRIPTION).regex(".*" + normalizedQuery + ".*", "i")           // Comparación exacta en el precio si es numérico
-        );
+        List<Product> products = mongoTemplate.find(query, Product.class);
+        long total = mongoTemplate.count(query.skip(-1).limit(-1), Product.class);
 
-        mongoQuery.addCriteria(criteria);
-
-        mongoQuery.with(pageable);
-
-        // Ejecutar la búsqueda
-        List<Product> products = mongoTemplate.find(mongoQuery, Product.class);
-        long total = mongoTemplate.count(mongoQuery, Product.class);
-
-        // Crear y devolver el objeto Page
         return new PageImpl<>(products, pageable, total);
+    }
+
+    @Autowired
+    public void setFilterContext(ProductFilterContext productFilterContext){
+        this.productFilterContext = productFilterContext;
     }
 
     @Autowired
