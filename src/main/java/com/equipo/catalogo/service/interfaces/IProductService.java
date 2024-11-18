@@ -18,7 +18,7 @@ public interface IProductService {
     // Obtener un producto por ID
     Optional<ProductDTO> getProductById(String id);
 
-    List<String> getSuggestions(String query);
+    List<ProductDTO> getSuggestions(String query);
 
     ResponseEntity<?> getQuantityIfExist(String id);
 

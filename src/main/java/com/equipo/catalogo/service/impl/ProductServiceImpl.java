@@ -49,15 +49,14 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<String> getSuggestions(String query) {
+    public List<ProductDTO> getSuggestions(String query) {
         if (query == null || query.isEmpty()) {
             return null;
         }else {
             return this.iProductRepository.findByNameContainingIgnoreCase(query)
                     .stream()
-                    .map(Product::getName)
                     .limit(5)
-                    .collect(Collectors.toList());
+                    .map(ProductMapper.INSTANCE::toProductDTO).toList();
         }
     }
 
