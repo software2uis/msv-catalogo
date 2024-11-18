@@ -25,7 +25,7 @@ public class ProductController {
     private IProductService iProductService;
 
     // Obtener todos los productos
-    @GetMapping
+    @PostMapping
     public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestBody(required = false) ProductFilterDTO productFilterDTO,
                                            Pageable pageable) {
         return new ResponseEntity<>(this.iProductService.getProductsFiltered(productFilterDTO, pageable), HttpStatus.OK);
