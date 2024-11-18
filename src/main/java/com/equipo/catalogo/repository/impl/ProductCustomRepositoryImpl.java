@@ -40,12 +40,18 @@ public class ProductCustomRepositoryImpl implements IProductCustomRepository {
             query.addCriteria(new Criteria().orOperator(nameCriteria, descriptionCriteria));
         }
 
-        if(filter.getMinPrice() != null){
-            query.addCriteria(Criteria.where(IProductConstants.PRICE).gte(filter.getMinPrice()));
-        }
+        if (filter.getMinPrice() != null || filter.getMaxPrice() != null) {
+            Criteria priceCriteria = Criteria.where(IProductConstants.PRICE);
 
-        if(filter.getMaxPrice() != null){
-            query.addCriteria(Criteria.where(IProductConstants.PRICE).lte(filter.getMaxPrice()));
+            if (filter.getMinPrice() != null) {
+                priceCriteria = priceCriteria.gte(filter.getMinPrice());
+            }
+
+            if (filter.getMaxPrice() != null) {
+                priceCriteria = priceCriteria.lte(filter.getMaxPrice());
+            }
+
+            query.addCriteria(priceCriteria);
         }
 
         query.with(pageable);
