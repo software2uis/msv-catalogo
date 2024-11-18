@@ -1,6 +1,7 @@
 package com.equipo.catalogo.service.interfaces;
 
 import com.equipo.catalogo.dto.ProductDTO;
+import com.equipo.catalogo.dto.ProductFilterDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public interface IProductService {
 
     // Obtener todos los productos
-    Page<ProductDTO> getAllProducts(String query, Pageable pageable);
+    Page<ProductDTO> getProductsFiltered(ProductFilterDTO productFilterDTO, Pageable pageable);
 
     // Obtener un producto por ID
     Optional<ProductDTO> getProductById(String id);

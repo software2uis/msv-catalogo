@@ -1,6 +1,7 @@
 package com.equipo.catalogo.service.impl;
 
 import com.equipo.catalogo.dto.ProductDTO;
+import com.equipo.catalogo.dto.ProductFilterDTO;
 import com.equipo.catalogo.mapper.ProductMapper;
 import com.equipo.catalogo.model.Product;
 import com.equipo.catalogo.repository.interfaces.IProductCustomRepository;
@@ -24,29 +25,27 @@ public class ProductServiceImpl implements IProductService {
     private IProductCustomRepository iProductCustomRepository;
 
     @Override
-    public Page<ProductDTO> getAllProducts(String query, Pageable pageable) {
-        Page<Product> ProductPage = this.iProductCustomRepository.productsCustomSearch(query, pageable);
-        List<ProductDTO> listDTO = ProductPage.stream().map(
+    public Page<ProductDTO> getProductsFiltered(ProductFilterDTO productFilterDTO, Pageable pageable) {
+
+        Page<Product> productPage;
+
+        if (productFilterDTO == null) {
+            productPage = this.iProductRepository.findAll(pageable);
+        }else{
+            productPage = this.iProductCustomRepository.getFilteredProducts(productFilterDTO, pageable);
+        }
+
+        List<ProductDTO> listDTO = productPage.stream().map(
                 ProductMapper.INSTANCE::toProductDTO
         ).toList();
 
-        return new PageImpl<>(listDTO, pageable, ProductPage.getTotalElements());
+        return new PageImpl<>(listDTO, pageable, productPage.getTotalElements());
     }
 
     @Override
     public Optional<ProductDTO> getProductById(String id) {
         return this.iProductRepository.findById(id).map(
                 ProductMapper.INSTANCE::toProductDTO);
-    }
-
-    @Autowired
-    public void setiProductRepository(IProductRepository iProductRepository){
-        this.iProductRepository = iProductRepository;
-    }
-
-    @Autowired
-    public void setiProductCustomRepository(IProductCustomRepository iProductCustomRepository) {
-        this.iProductCustomRepository = iProductCustomRepository;
     }
 
     @Override
@@ -97,5 +96,15 @@ public class ProductServiceImpl implements IProductService {
         }else {
             return ResponseEntity.status(404).body("El producto no existe o la cantidad no es valida");
         }
+    }
+
+    @Autowired
+    public void setiProductRepository(IProductRepository iProductRepository){
+        this.iProductRepository = iProductRepository;
+    }
+
+    @Autowired
+    public void setiProductCustomRepository(IProductCustomRepository iProductCustomRepository) {
+        this.iProductCustomRepository = iProductCustomRepository;
     }
 }
