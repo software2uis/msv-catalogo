@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @GetMapping("/suggestions")
-    public List<String> getSuggestions(@RequestParam String query) {
+    public List<ProductDTO> getSuggestions(@RequestParam String query) {
         return this.iProductService.getSuggestions(query);
     }
 
