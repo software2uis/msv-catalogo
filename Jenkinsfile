@@ -66,7 +66,7 @@ passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                     sh """
                     docker run -dp ${IMAGE_PORT}:8081 \\
                         --name ${FINAL_NAME} \\
-                        -e MONGODBURI="mongodb+srv://${appName}:*M36VX7q-6hTbRY@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}" \\
+                        -e MONGODBURI="mongodb+srv://${appName}:GYeC0eJOmNZJRLdQ@software2.i7mel.mongodb.net/Catalogo?retryWrites=true&w=${w}" \\
                         ${imageName}
                     """
 
