@@ -27,7 +27,10 @@ public class ProductDTO {
     private Integer quantity;
 
     private List<ImageDTO> images;
+
     private List<SpecificationDTO> specifications;
+
+    private Double score;
 
     @Setter
     @Getter
