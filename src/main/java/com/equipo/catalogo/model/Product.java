@@ -31,6 +31,7 @@ public class Product {
 
     private Integer quantity;
 
+    private Double score;
 
     @Setter
     @Getter

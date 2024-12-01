@@ -54,6 +54,10 @@ public class ProductCustomRepositoryImpl implements IProductCustomRepository {
             query.addCriteria(priceCriteria);
         }
 
+        if(filter.getScore() != null){
+            query.addCriteria(Criteria.where("score").gte(filter.getScore()));
+        }
+
         query.with(pageable);
 
         List<Product> products = mongoTemplate.find(query, Product.class);

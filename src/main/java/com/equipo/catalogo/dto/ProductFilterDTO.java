@@ -31,4 +31,5 @@ public class ProductFilterDTO {
 
     private Double maxPrice;
 
+    private Double score;
 }
